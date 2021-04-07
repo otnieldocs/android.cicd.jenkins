@@ -34,7 +34,6 @@ pipeline {
     agent {
         docker {
             image 'otnieldocs/android-build-env:0.0.1'
-            args '-v /c/Users/otnie/AppData/Local/Jenkins/.jenkins/workspace/android-jenkins_master:/root/.m2'
         }
     }
     environment {
