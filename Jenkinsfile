@@ -33,7 +33,8 @@ def isDeployCandidate() {
 pipeline {
     agent {
         docker {
-            image 'otnieldocs/android-build-env:0.0.1'
+            image "otnieldocs/android-build-env:0.0.1"
+            args "-u ubuntu --net=host -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/.docker:/home/ubuntu/.docker"
         }
     }
     environment {
