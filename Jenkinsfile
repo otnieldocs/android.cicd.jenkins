@@ -31,20 +31,28 @@ def isDeployCandidate() {
 }
 
 pipeline {
-    agent {
-        docker {
-            image "otnieldocs/android-build-env:0.0.1"
-            args "-u ubuntu --net=host -v /var/run/docker.sock:/var/run/docker.sock"
-        }
-    }
+    agent { dockerfile true }
+    environment {
+        appName = 'app-jenkins'
 
+        KEY_PASSWORD = credentials('keyPassword')
+        KEY_ALIAS = credentials('keyAlias')
+        KEYSTORE = credentials('keystore')
+        STORE_PASSWORD = credentials('storePassword')
+    }
     stages {
         stage('Run Tests') {
             steps {
                 echo 'Running Tests'
                 script {
                     VARIANT = getBuildType()
-                    sh "./gradlew test${VARIANT}UnitTest"
+
+                    if (isUnix()) {
+                        sh "./gradlew test${VARIANT}UnitTest"
+                    } else {
+                        bat "./gradlew test${VARIANT}UnitTest"
+                    }
+
                 }
             }
         }
@@ -54,10 +62,42 @@ pipeline {
                 echo 'Building'
                 script {
                     VARIANT = getBuildType()
-                    sh "./gradlew -PstorePass=${STORE_PASSWORD} -Pkeystore=${KEYSTORE} -Palias=$KEY_ALIAS -PkeyPass=${KEY_PASSWORD} bundle${VARIANT}"
+
+                    if (isUnix()) {
+                        sh "./gradlew -PstorePass=${STORE_PASSWORD} -Pkeystore=${KEYSTORE} -Palias=$KEY_ALIAS -PkeyPass=${KEY_PASSWORD} bundle${VARIANT}"
+                    } else {
+                        bat "./gradlew -PstorePass=${STORE_PASSWORD} -Pkeystore=${KEYSTORE} -Palias=$KEY_ALIAS -PkeyPass=${KEY_PASSWORD} bundle${VARIANT}"
+                    }
                 }
             }
         }
+        stage('Deploy App to Store') {
+            when { expression { return isDeployCandidate() } }
+            steps {
+                echo 'Deploying'
+                script {
+                    VARIANT = getBuildType()
+                    TRACK = getTrackType()
 
+                    if (TRACK == Constants.RELEASE_TRACK) {
+                        timeout(time: 5, unit: 'MINUTES') {
+                            input "Proceed with deployment to ${TRACK}?"
+                        }
+                    }
+
+                    try {
+                        CHANGELOG = readFile(file: 'CHANGELOG.txt')
+                    } catch (err) {
+                        echo "Issue reading CHANGELOG.txt file: ${err.localizedMessage}"
+                        CHANGELOG = ''
+                    }
+
+                    androidApkUpload googleCredentialsId: 'play-store-credentials',
+                            filesPattern: "**/outputs/bundle/${VARIANT.toLowerCase()}/*.aab",
+                            trackName: TRACK,
+                            recentChangeList: [[language: 'en-US', text: CHANGELOG]]
+                }
+            }
+        }
     }
 }
