@@ -31,7 +31,12 @@ def isDeployCandidate() {
 }
 
 pipeline {
-    agent { dockerfile true }
+    agent {
+        docker {
+            image "otnieldocs/android-build-env:0.0.1"
+            args "-v /var/run/docker.sock:/var/run/docker.sock"
+        }
+    }
     environment {
         appName = 'app-jenkins'
 
