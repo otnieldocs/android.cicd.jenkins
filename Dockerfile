@@ -1,6 +1,6 @@
 FROM openjdk:8-jdk
 
-WORKDIR project/
+WORKDIR /
 
 # Install Build Essentials
 RUN apt-get update \
