@@ -52,9 +52,9 @@ pipeline {
                     VARIANT = getBuildType()
 
                     if (isUnix()) {
-                        sh "./gradlew test${VARIANT}UnitTest"
+                        sh "./gradlew test"
                     } else {
-                        bat "./gradlew test${VARIANT}UnitTest"
+                        bat "./gradlew test"
                     }
 
                 }
