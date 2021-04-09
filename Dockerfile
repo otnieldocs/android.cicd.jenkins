@@ -8,7 +8,7 @@ RUN apt-get update \
 
 # Set Environment Variables
 ENV SDK_URL="https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip" \
-    ANDROID_HOME="/usr/local/android-sdk" \
+    ANDROID_HOME="/opt/android" \
     ANDROID_VERSION=29
 
 # Download Android SDK
