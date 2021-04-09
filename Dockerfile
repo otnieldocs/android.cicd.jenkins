@@ -13,6 +13,9 @@ ENV SDK_URL="https://dl.google.com/android/repository/sdk-tools-linux-3859397.zi
 
 # Download Android SDK
 RUN mkdir "$ANDROID_HOME" .android \
+    && chmod -R +rwx "$ANDROID_HOME" \
+    && mkdir /root/.android/ \
+    && touch /root/.android/repositories.cfg \
     && cd "$ANDROID_HOME" \
     && curl -o sdk.zip $SDK_URL \
     && unzip sdk.zip \
