@@ -46,19 +46,26 @@ pipeline {
     }
     stages {
         stage('Lint Debug Stage') {
-            script {
-                if (isUnix()) {
-                    sh "./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint"
-                } else {
-                    bat "./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint"
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh "./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint"
+                    } else {
+                        bat "./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint"
+                    }
                 }
             }
         }
         stage('Assemble Build') {
-            if (isUnix()) {
-                sh "./gradlew assembleDebug"
-            } else {
-                bat "./gradlew assembleDebug"
+            steps {
+                echo 'Assemble Build'
+                script {
+                    if (isUnix()) {
+                        sh "./gradlew assembleDebug"
+                    } else {
+                        bat "./gradlew assembleDebug"
+                    }
+                }
             }
         }
         stage('Run Tests') {
