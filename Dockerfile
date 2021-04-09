@@ -17,7 +17,7 @@ RUN wget "$SDK_URL" -P /tmp \
     && export PATH=$PATH:$ANDROID_HOME/tools/bin \
     && mkdir /root/.android/ \
     && touch /root/.android/repositories.cfg \
-    && echo y | sdkmanager --licenses
+    && yes | sdkmanager --licenses
 
 # Install Android Build Tool and Libraries
 RUN $ANDROID_HOME/tools/bin/sdkmanager --update
