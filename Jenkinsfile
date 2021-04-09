@@ -40,7 +40,7 @@ def isDeployCandidate() {
 pipeline {
     agent {
         docker {
-            image "${IMAGE_VERSION}"
+            image "${Constants.IMAGE_VERSION}"
         }
     }
     environment {
