@@ -49,8 +49,8 @@ pipeline {
             steps {
                 echo 'Running Tests'
                 script {
-                    # todo: add some checking for specific build variant here, uncomment if you need this
-                    # VARIANT = getBuildType()
+                    // todo: add some checking for specific build variant here, uncomment if you need this
+                    // VARIANT = getBuildType()
 
                     COMMAND = "./gradlew test"
 
