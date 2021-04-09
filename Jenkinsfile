@@ -55,9 +55,9 @@ pipeline {
                     COMMAND = "./gradlew test"
 
                     if (isUnix()) {
-                        sh ${COMMAND}
+                        sh "${COMMAND}"
                     } else {
-                        bat ${COMMAND}
+                        bat "${COMMAND}"
                     }
 
                 }
@@ -73,9 +73,9 @@ pipeline {
                     COMMAND = "./gradlew -PstorePass=${STORE_PASSWORD} -Pkeystore=${KEYSTORE} -Palias=$KEY_ALIAS -PkeyPass=${KEY_PASSWORD} bundle${VARIANT}"
 
                     if (isUnix()) {
-                        sh ${COMMAND}
+                        sh "${COMMAND}"
                     } else {
-                        bat ${COMMAND}
+                        bat "${COMMAND}"
                     }
                 }
             }
