@@ -20,12 +20,9 @@ RUN wget "$SDK_URL" -P /tmp \
     && export PATH=$PATH:$ANDROID_HOME/tools/bin \
     && mkdir /root/.android/ \
     && touch /root/.android/repositories.cfg \
-    && yes | sdkmanager --licenses
-
-# Install Android Build Tool and Libraries
-RUN $ANDROID_HOME/tools/bin/sdkmanager --update
-RUN $ANDROID_HOME/tools/bin/sdkmanager "build-tools;29.0.2" \
-    "platforms;android-${ANDROID_VERSION}" \
-    "platform-tools"
+    && yes | sdkmanager --licenses \
+    && sdkmanager "build-tools;29.0.2" \
+       "platforms;android-${ANDROID_VERSION}" \
+       "platform-tools"
 
 CMD ["/bin/bash"]
