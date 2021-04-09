@@ -33,7 +33,7 @@ def isDeployCandidate() {
 pipeline {
     agent {
         docker {
-            image "otnieldocs/android-build-env:0.0.10"
+            image "otnieldocs/android-build-env:0.0.11"
         }
     }
     environment {
@@ -45,37 +45,16 @@ pipeline {
         STORE_PASSWORD = credentials('storePassword')
     }
     stages {
-        stage('Lint Debug Stage') {
-            steps {
-                script {
-                    if (isUnix()) {
-                        sh "./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint"
-                    } else {
-                        bat "./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint"
-                    }
-                }
-            }
-        }
-        stage('Assemble Build') {
-            steps {
-                echo 'Assemble Build'
-                script {
-                    if (isUnix()) {
-                        sh "./gradlew assembleDebug"
-                    } else {
-                        bat "./gradlew assembleDebug"
-                    }
-                }
-            }
-        }
         stage('Run Tests') {
             steps {
                 echo 'Running Tests'
                 script {
+                    VARIANT = getBuildType()
+
                     if (isUnix()) {
-                        sh "./gradlew -Pci --console=plain :app:testDebug"
+                        sh "./gradlew test"
                     } else {
-                        bat "./gradlew -Pci --console=plain :app:testDebug"
+                        bat "./gradlew test"
                     }
 
                 }

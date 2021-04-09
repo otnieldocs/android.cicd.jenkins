@@ -21,7 +21,7 @@ RUN wget "$SDK_URL" -P /tmp \
     && mkdir /root/.android/ \
     && touch /root/.android/repositories.cfg \
     && yes | sdkmanager --licenses \
-    && sdkmanager "build-tools;29.0.2" \
+    && sdkmanager "build-tools;30.0.3" \
        "platforms;android-${ANDROID_VERSION}" \
        "platform-tools"
 
