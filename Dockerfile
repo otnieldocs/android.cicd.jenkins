@@ -12,7 +12,8 @@ RUN apt-get update \
 # Set Environment Variables
 ENV SDK_URL="https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip" \
     ANDROID_HOME="/usr/local/android-sdk" \
-    ANDROID_VERSION=30
+    ANDROID_VERSION=30 \
+    BUILD_TOOLS="30.0.3"
 
 # Download Android SDK
 RUN wget "$SDK_URL" -P /tmp \

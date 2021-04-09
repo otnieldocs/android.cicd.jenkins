@@ -6,6 +6,13 @@ class Constants {
 
     static final String INTERNAL_TRACK = 'internal'
     static final String RELEASE_TRACK = 'release'
+
+    static final String ANDROID_VERSION = '30'
+    static final String BUILD_VERSION = '30.0.3'
+    static final String IMAGE_BUILD = '1'
+    static final String IMAGE_NAME = 'android-build-env'
+    static final String DOCKER_USERNAME = 'otnieldocs'
+    static final String IMAGE_VERSION = "${DOCKER_USERNAME}/${IMAGE_NAME}:${ANDROID_VERSION}_${BUILD_VERSION}_${IMAGE_BUILD}"
 }
 
 def getBuildType() {
@@ -33,7 +40,7 @@ def isDeployCandidate() {
 pipeline {
     agent {
         docker {
-            image "otnieldocs/android-build-env:0.0.12"
+            image "${IMAGE_VERSION}"
         }
     }
     environment {
