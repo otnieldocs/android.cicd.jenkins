@@ -12,7 +12,7 @@ class Constants {
     static final String IMAGE_BUILD = '1'
     static final String IMAGE_NAME = 'android-build-env'
     static final String DOCKER_USERNAME = 'otnieldocs'
-    static final String IMAGE_VERSION = "${DOCKER_USERNAME}/${IMAGE_NAME}:${ANDROID_VERSION}_${BUILD_VERSION}_${IMAGE_BUILD}"
+    static final String IMAGE_VERSION = DOCKER_USERNAME + '/' + IMAGE_NAME + ':' + ANDROID_VERSION + '_' + BUILD_VERSION + '_' + IMAGE_BUILD
 }
 
 def getBuildType() {
