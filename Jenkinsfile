@@ -33,7 +33,7 @@ def isDeployCandidate() {
 pipeline {
     agent {
         docker {
-            image "otnieldocs/android-build-env:0.0.7"
+            image "otnieldocs/android-build-env:0.0.8"
         }
     }
     environment {
