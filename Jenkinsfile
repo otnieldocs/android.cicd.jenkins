@@ -45,16 +45,30 @@ pipeline {
         STORE_PASSWORD = credentials('storePassword')
     }
     stages {
+        stage('Lint Debug Stage') {
+            script {
+                if (isUnix()) {
+                    sh "./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint"
+                } else {
+                    bat "./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint"
+                }
+            }
+        }
+        stage('Assemble Build') {
+            if (isUnix()) {
+                sh "./gradlew assembleDebug"
+            } else {
+                bat "./gradlew assembleDebug"
+            }
+        }
         stage('Run Tests') {
             steps {
                 echo 'Running Tests'
                 script {
-                    VARIANT = getBuildType()
-
                     if (isUnix()) {
-                        sh "./gradlew test"
+                        sh "./gradlew -Pci --console=plain :app:testDebug"
                     } else {
-                        bat "./gradlew test"
+                        bat "./gradlew -Pci --console=plain :app:testDebug"
                     }
 
                 }
