@@ -49,12 +49,15 @@ pipeline {
             steps {
                 echo 'Running Tests'
                 script {
-                    VARIANT = getBuildType()
+                    # todo: add some checking for specific build variant here, uncomment if you need this
+                    # VARIANT = getBuildType()
+
+                    COMMAND = "./gradlew test"
 
                     if (isUnix()) {
-                        sh "./gradlew test"
+                        sh ${COMMAND}
                     } else {
-                        bat "./gradlew test"
+                        bat ${COMMAND}
                     }
 
                 }
@@ -67,10 +70,12 @@ pipeline {
                 script {
                     VARIANT = getBuildType()
 
+                    COMMAND = "./gradlew -PstorePass=${STORE_PASSWORD} -Pkeystore=${KEYSTORE} -Palias=$KEY_ALIAS -PkeyPass=${KEY_PASSWORD} bundle${VARIANT}"
+
                     if (isUnix()) {
-                        sh "./gradlew -PstorePass=${STORE_PASSWORD} -Pkeystore=${KEYSTORE} -Palias=$KEY_ALIAS -PkeyPass=${KEY_PASSWORD} bundle${VARIANT}"
+                        sh ${COMMAND}
                     } else {
-                        bat "./gradlew -PstorePass=${STORE_PASSWORD} -Pkeystore=${KEYSTORE} -Palias=$KEY_ALIAS -PkeyPass=${KEY_PASSWORD} bundle${VARIANT}"
+                        bat ${COMMAND}
                     }
                 }
             }
