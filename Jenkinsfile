@@ -15,6 +15,10 @@ class Constants {
     static final String IMAGE_VERSION = DOCKER_USERNAME + '/' + IMAGE_NAME + ':' + ANDROID_VERSION + '_' + BUILD_VERSION + '_' + IMAGE_BUILD
 }
 
+def ANDROID_HOME='/usr/local/android-sdk'
+def ADB="$ANDROID_HOME/platform-tools/adb"
+
+
 def getBuildType() {
     switch(env.BRANCH_NAME) {
         case Constants.MASTER_BRANCH:
@@ -68,6 +72,29 @@ pipeline {
                     }
 
                 }
+            }
+        }
+        stage('Run Instrumentation Tests') {
+            sh "$ADB start-server"
+            def error
+            parallel {
+                launchEmulator {
+                    sh "$ANDROID_HOME/tools/qemu/linux-x86_64/qemu-system-x86_64 -engine classic -prop persist.sys.language=en -prop persist.sys.country=US -avd test -no-snapshot-load -no-snapshot-save -no-window"
+                }
+                runAndroidTests: {
+                    timeout(time: 20, unit: 'SECONDS') {
+                      sh "$ADB wait-for-device"
+                    }
+                    try {
+                        sh "./gradlew :MyKet:connectedAndroidTest"
+                    } catch(e) {
+                        error = e
+                    }
+                    sh script: '/var/lib/jenkins/kill-emu.sh'
+                }
+            }
+            if (error != null) {
+                throw error
             }
         }
         stage('Build Bundle') {
