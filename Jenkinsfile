@@ -15,10 +15,6 @@ class Constants {
     static final String IMAGE_VERSION = DOCKER_USERNAME + '/' + IMAGE_NAME + ':' + ANDROID_VERSION + '_' + BUILD_VERSION + '_' + IMAGE_BUILD
 }
 
-def ANDROID_HOME='/usr/local/android-sdk'
-def ADB="$ANDROID_HOME/platform-tools/adb"
-
-
 def getBuildType() {
     switch(env.BRANCH_NAME) {
         case Constants.MASTER_BRANCH:
@@ -71,19 +67,6 @@ pipeline {
                         bat "${COMMAND}"
                     }
 
-                }
-            }
-        }
-        stage('Run Instrumentation Tests') {
-            steps {
-                script {
-                    if (currentBuild.result == null || currentBuild.result == 'SUCCESS') {
-                        // Start your emulator, testing tools
-                        sh 'emulator @Pixel_3a_API_30_x86'
-
-                        // You're set to go, now execute your UI test
-                        sh 'rspec spec -fd'
-                    }
                 }
             }
         }
