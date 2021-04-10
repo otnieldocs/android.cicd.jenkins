@@ -38,6 +38,7 @@ def isDeployCandidate() {
 }
 
 pipeline {
+    agent none
     environment {
         appName = 'app-jenkins'
 
