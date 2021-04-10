@@ -75,26 +75,16 @@ pipeline {
             }
         }
         stage('Run Instrumentation Tests') {
-            sh "$ADB start-server"
-            def error
-            parallel {
-                launchEmulator {
-                    sh "$ANDROID_HOME/tools/qemu/linux-x86_64/qemu-system-x86_64 -engine classic -prop persist.sys.language=en -prop persist.sys.country=US -avd test -no-snapshot-load -no-snapshot-save -no-window"
-                }
-                runAndroidTests: {
-                    timeout(time: 20, unit: 'SECONDS') {
-                      sh "$ADB wait-for-device"
+            steps {
+                script {
+                    if (currentBuild.result == null || currentBuild.result == 'SUCCESS') {
+                        // Start your emulator, testing tools
+                        sh 'emulator @Pixel_3a_API_30_x86'
+
+                        // You're set to go, now execute your UI test
+                        sh 'rspec spec -fd'
                     }
-                    try {
-                        sh "./gradlew :MyKet:connectedAndroidTest"
-                    } catch(e) {
-                        error = e
-                    }
-                    sh script: '/var/lib/jenkins/kill-emu.sh'
                 }
-            }
-            if (error != null) {
-                throw error
             }
         }
         stage('Build Bundle') {
