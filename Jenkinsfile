@@ -38,11 +38,6 @@ def isDeployCandidate() {
 }
 
 pipeline {
-    agent {
-        docker {
-            image "${Constants.IMAGE_VERSION}"
-        }
-    }
     environment {
         appName = 'app-jenkins'
 
@@ -53,6 +48,11 @@ pipeline {
     }
     stages {
         stage('Run Tests') {
+            agent {
+                docker {
+                    image "${Constants.IMAGE_VERSION}"
+                }
+            }
             steps {
                 echo 'Running Tests'
                 script {
@@ -71,6 +71,7 @@ pipeline {
             }
         }
         stage('Run Instrumentation Test') {
+            agent any
             steps {
                 echo 'Instrumentation Test'
                 script {
