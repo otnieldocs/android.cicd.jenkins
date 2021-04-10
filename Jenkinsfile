@@ -74,7 +74,7 @@ pipeline {
             steps {
                 echo 'Instrumentation Test'
                 script {
-                    sh "/home/otniel/Android/Sdk/emulator -avd Pixel_3a_API_30_x86 -no-audio -no-boot-anim -no-window -accel on -gpu off -skin 1440x2880"
+                    sh "/home/otniel/Android/Sdk/emulator/emulator -avd Pixel_3a_API_30_x86 -no-audio -no-boot-anim -no-window -accel on -gpu off -skin 1440x2880"
                 }
             }
         }
