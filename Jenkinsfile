@@ -70,6 +70,14 @@ pipeline {
                 }
             }
         }
+        stage('Run Instrumentation Test') {
+            steps {
+                echo 'Instrumentation Test'
+                script {
+                    sh "emulator -avd Pixel_3a_API_30_x86 -no-audio -no-boot-anim -no-window -accel on -gpu off -skin 1440x2880"
+                }
+            }
+        }
         stage('Build Bundle') {
             when { expression { return isDeployCandidate() } }
             steps {
