@@ -75,7 +75,7 @@ pipeline {
             steps {
                 echo 'Instrumentation Test'
                 script {
-                    sh "/usr/local/android-sdk/tools/emulator -avd emu_pixel_api_28 -no-audio -no-boot-anim -no-window -accel on -gpu off -skin 1440x2880"
+                    sh "/start.sh && gradlew build -p /data"
                 }
             }
         }
