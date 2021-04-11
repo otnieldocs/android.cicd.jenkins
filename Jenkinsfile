@@ -75,7 +75,7 @@ pipeline {
             steps {
                 echo 'Instrumentation Test'
                 script {
-                    sh "/start.sh && gradlew build -p /data"
+                    sh "/start.sh && ./gradlew build -p /data"
                 }
             }
         }
