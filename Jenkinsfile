@@ -9,7 +9,7 @@ class Constants {
 
     static final String ANDROID_VERSION = '30'
     static final String BUILD_VERSION = '30.0.3'
-    static final String IMAGE_BUILD = '3'
+    static final String IMAGE_BUILD = '4'
     static final String IMAGE_NAME = 'android-build-env'
     static final String DOCKER_USERNAME = 'otnieldocs'
     static final String IMAGE_VERSION = DOCKER_USERNAME + '/' + IMAGE_NAME + ':' + ANDROID_VERSION + '_' + BUILD_VERSION + '_' + IMAGE_BUILD
@@ -75,7 +75,7 @@ pipeline {
             steps {
                 echo 'Instrumentation Test'
                 script {
-                    sh "./start.sh && ./gradlew build -p /data"
+                    sh "./gradlew connectedAndroidTest"
                 }
             }
         }

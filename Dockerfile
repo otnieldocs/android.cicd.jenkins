@@ -33,6 +33,6 @@ RUN ${ANDROID_HOME}/tools/bin/avdmanager --verbose create avd --force --name "em
 
 ADD start.sh /
 
-RUN chmod +x start.sh
+RUN chmod +x start.sh && ./start.sh
 
 CMD ["/bin/bash"]
