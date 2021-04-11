@@ -9,7 +9,7 @@ class Constants {
 
     static final String ANDROID_VERSION = '30'
     static final String BUILD_VERSION = '30.0.3'
-    static final String IMAGE_BUILD = '1'
+    static final String IMAGE_BUILD = '2'
     static final String IMAGE_NAME = 'android-build-env'
     static final String DOCKER_USERNAME = 'otnieldocs'
     static final String IMAGE_VERSION = DOCKER_USERNAME + '/' + IMAGE_NAME + ':' + ANDROID_VERSION + '_' + BUILD_VERSION + '_' + IMAGE_BUILD
@@ -41,6 +41,7 @@ pipeline {
     agent {
         docker {
             image "${Constants.IMAGE_VERSION}"
+            args '--privileged'
         }
     }
     environment {
@@ -74,7 +75,7 @@ pipeline {
             steps {
                 echo 'Instrumentation Test'
                 script {
-                    sh "emulator -avd Pixel_3a_API_30_x86 -no-audio -no-boot-anim -no-window -accel on -gpu off -skin 1440x2880"
+                    sh "/usr/local/android-sdk/tools/emulator -avd emu_pixel_api_28 -no-audio -no-boot-anim -no-window -accel on -gpu off -skin 1440x2880"
                 }
             }
         }

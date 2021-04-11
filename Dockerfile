@@ -24,6 +24,10 @@ RUN wget "$SDK_URL" -P /tmp \
     && yes | sdkmanager --licenses \
     && sdkmanager "build-tools;30.0.3" \
        "platforms;android-${ANDROID_VERSION}" \
-       "platform-tools"
+       "platform-tools" \
+       "system-images;android-28;google_apis;x86"
+
+# Create emulator
+RUN ${ANDROID_HOME}/tools/bin/avdmanager --verbose create avd --force --name "emu_pixel_api_28" --device "pixel" --package "system-images;android-28;google_apis;x86"
 
 CMD ["/bin/bash"]
