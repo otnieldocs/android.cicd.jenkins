@@ -40,7 +40,7 @@ def isDeployCandidate() {
 pipeline {
     agent {
         docker {
-            image "${Constants.IMAGE_VERSION}"
+            image 'a4de55ea26b4'
             args '--privileged'
         }
     }
