@@ -71,14 +71,7 @@ pipeline {
                 }
             }
         }
-        stage('Run Instrumentation Test') {
-            steps {
-                echo 'Instrumentation Test'
-                script {
-                    sh "./gradlew connectedAndroidTest"
-                }
-            }
-        }
+
         stage('Build Bundle') {
             when { expression { return isDeployCandidate() } }
             steps {
