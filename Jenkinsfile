@@ -40,7 +40,7 @@ def isDeployCandidate() {
 pipeline {
     agent {
         docker {
-            image 'a4de55ea26b4'
+            image "${Constants.IMAGE_VERSION}"
             args '--privileged'
         }
     }
@@ -71,7 +71,6 @@ pipeline {
                 }
             }
         }
-
         stage('Build Bundle') {
             when { expression { return isDeployCandidate() } }
             steps {
